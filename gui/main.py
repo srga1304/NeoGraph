@@ -19,12 +19,10 @@ def create_interactive_graph_html(graph_data, cache_file):
     if not graph_data or not graph_data.get('nodes'):
         return None
 
+    # Reverted to the version that displayed the graph, even with styling issues
     net = Network(notebook=False, height="100%", width="100%", directed=True, 
                   cdn_resources='in_line', bgcolor='#222222', font_color='white')
     
-    # Disable the UI buttons that require Bootstrap and cause CORS issues
-    net.show_buttons(False)
-
     net.set_options('''
     var options = {
         "nodes": {
@@ -86,7 +84,6 @@ class GraphWindow(QMainWindow):
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)
 
-        # Reverted the problematic setting, but kept JavascriptEnabled
         self.browser.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
 
         if html_content:
