@@ -23,47 +23,84 @@ def create_interactive_graph_html(graph_data, cache_file):
     net = Network(notebook=False, height="100%", width="100%", directed=True, 
                   cdn_resources='in_line', bgcolor='#222222', font_color='white')
     
-    net.set_options('''
-    var options = {
-        "nodes": {
-            "size": 15,
-            "color": {
-                "background": "#ff8c00",
-                "border": "#ffa500",
-                "highlight": {
-                    "background": "#ffae42",
-                    "border": "#ffc966"
-                }
-            },
-            "font": {
-                "color": "#ffffff",
-                "size": 12
+    net.set_options('''var options = {
+    "nodes": {
+        "size": 8,
+        "color": {
+            "background": "#7c3aed",
+            "border": "#8b5cf6",
+            "highlight": {
+                "background": "#a855f7",
+                "border": "#c084fc"
             }
         },
-        "edges": {
-            "arrows": { "to": { "enabled": true, "scaleFactor": 0.5 } },
-            "color": { "inherit": false, "color": "#555555", "highlight": "#cccccc" },
-            "smooth": { "enabled": true, "type": "dynamic" }
+        "font": {
+            "color": "#ffffff",
+            "size": 10,
+            "face": "Inter, system-ui, sans-serif"
         },
-        "physics": {
+        "borderWidth": 1,
+        "shape": "dot"
+    },
+    "edges": {
+        "arrows": { 
+            "to": { 
+                "enabled": false
+            } 
+        },
+        "color": { 
+            "inherit": false, 
+            "color": "rgba(255, 255, 255, 0.2)", 
+            "highlight": "rgba(124, 58, 237, 0.8)",
+            "hover": "rgba(124, 58, 237, 0.6)"
+        },
+        "smooth": { 
+            "enabled": true, 
+            "type": "continuous",
+            "forceDirection": "none",
+            "roundness": 0
+        },
+        "width": 1,
+        "selectionWidth": 2
+    },
+    "physics": {
+        "enabled": true,
+        "barnesHut": {
+            "gravitationalConstant": -2000,
+            "centralGravity": 0.05,
+            "springLength": 100,
+            "springConstant": 0.04,
+            "damping": 0.05,
+            "avoidOverlap": 0.15
+        },
+        "maxVelocity": 30,
+        "minVelocity": 0.1,
+        "solver": "barnesHut",
+        "timestep": 0.35,
+        "adaptiveTimestep": true
+    },
+    "interaction": {
+        "hover": true,
+        "hoverConnectedEdges": true,
+        "selectConnectedEdges": false,
+        "tooltipDelay": 200,
+        "zoomView": true,
+        "dragView": true,
+        "dragNodes": true,
+        "multiselect": true,
+        "keyboard": {
             "enabled": true,
-            "barnesHut": {
-                "gravitationalConstant": -8000,
-                "centralGravity": 0.3,
-                "springLength": 95,
-                "springConstant": 0.04,
-                "damping": 0.09,
-                "avoidOverlap": 0.2
-            },
-            "maxVelocity": 50,
-            "minVelocity": 0.1,
-            "solver": "barnesHut"
-        },
-        "interaction": {
-            "hover": true
+            "bindToWindow": false
+        }
+    },
+    "layout": {
+        "randomSeed": 2,
+        "improvedLayout": true,
+        "hierarchical": {
+            "enabled": false
         }
     }
-    ''')
+}''')
 
     for node in graph_data.get('nodes', []):
         net.add_node(node['id'], label=node['label'], title=node['path'])
