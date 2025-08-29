@@ -1,0 +1,7 @@
+#+TITLE: Functional Programming
+
+Functional Programming is a programming paradigm where programs are constructed by applying and composing functions.
+
+[[javascript]] has many functional programming features.
+
+Related to: [[concepts]]

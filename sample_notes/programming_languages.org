@@ -1,0 +1,7 @@
+#+TITLE: Programming Languages
+
+This note is about different programming languages.
+
+- [[python]]
+- [[javascript]]
+- [[lua]]

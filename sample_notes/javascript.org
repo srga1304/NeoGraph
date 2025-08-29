@@ -1,0 +1,7 @@
+#+TITLE: JavaScript
+
+JavaScript is a language of the web.
+
+It has features of [[functional_programming]] and also has [[garbage_collection]].
+
+See also: [[programming_languages]]

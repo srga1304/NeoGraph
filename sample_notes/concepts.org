@@ -1,0 +1,7 @@
+#+TITLE: Programming Concepts
+
+This note covers high-level programming concepts.
+
+- [[object_oriented_programming]]
+- [[functional_programming]]
+- [[garbage_collection]]

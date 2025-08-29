@@ -1,13 +1,12 @@
-
--- Определяем пользовательскую команду :NeoGraphOpen
+-- Define the :NeoGraphOpen user command
 vim.api.nvim_create_user_command(
   'NeoGraphOpen',
   function()
-    -- Вызываем основную функцию плагина
+    -- Call the main plugin function
     require('neographnotes').open()
   end,
   {
     nargs = 0,
-    desc = 'Открыть граф заметок NeoGraphNotes',
+    desc = 'Open the NeoGraphNotes graph',
   }
 )

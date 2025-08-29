@@ -1,0 +1,6 @@
+#+TITLE: Data Structures
+
+Data structures are a way of organizing and storing data.
+
+- [[arrays]]
+- [[hash_maps]]

@@ -19,10 +19,20 @@ def create_interactive_graph_html(graph_data, cache_file):
     if not graph_data or not graph_data.get('nodes'):
         return None
 
-    # Reverted to the version that displayed the graph, even with styling issues
+    # --- Calculate Node Degrees ---
+    node_degrees = {node['id']: 0 for node in graph_data.get('nodes', [])}
+    for edge in graph_data.get('edges', []):
+        if edge.get('from') in node_degrees:
+            node_degrees[edge['from']] += 1
+        if edge.get('to') in node_degrees:
+            node_degrees[edge['to']] += 1
+
+    # --- Create Pyvis Network ---
     net = Network(notebook=False, height="100%", width="100%", directed=True, 
                   cdn_resources='in_line', bgcolor='#222222', font_color='white')
     
+    # --- Set Graph Options ---
+    # The base node size is defined here. We will override it per-node later.
     net.set_options('''var options = {
     "nodes": {
         "size": 8,
@@ -43,10 +53,10 @@ def create_interactive_graph_html(graph_data, cache_file):
         "shape": "dot"
     },
     "edges": {
-        "arrows": { 
-            "to": { 
+        "arrows": {
+            "to": {
                 "enabled": false
-            } 
+            }
         },
         "color": { 
             "inherit": false, 
@@ -66,12 +76,12 @@ def create_interactive_graph_html(graph_data, cache_file):
     "physics": {
         "enabled": true,
         "barnesHut": {
-            "gravitationalConstant": -2000,
+            "gravitationalConstant": -5000,
             "centralGravity": 0.05,
-            "springLength": 100,
-            "springConstant": 0.04,
+            "springLength": 300,
+            "springConstant": 0.02,
             "damping": 0.05,
-            "avoidOverlap": 0.15
+            "avoidOverlap": 0.5
         },
         "maxVelocity": 30,
         "minVelocity": 0.1,
@@ -102,12 +112,24 @@ def create_interactive_graph_html(graph_data, cache_file):
     }
 }''')
 
+    # --- Add Nodes with Dynamic Sizing ---
+    base_node_size = 8 # Must match the "size" in the options above
     for node in graph_data.get('nodes', []):
-        net.add_node(node['id'], label=node['label'], title=node['path'])
+        degree = node_degrees.get(node['id'], 0)
+        # Scale size: 10 connections = 100% increase (2x size), 100 = 1000% (11x size)
+        node_size = base_node_size * (1 + degree * 0.1)
+        net.add_node(
+            node['id'], 
+            label=node['label'], 
+            title=node['path'],
+            size=node_size
+        )
 
+    # --- Add Edges ---
     for edge in graph_data.get('edges', []):
         net.add_edge(edge['from'], edge['to'])
 
+    # --- Save Graph ---
     html_path = os.path.join(os.path.dirname(cache_file), 'neographnotes_graph.html')
     net.save_graph(html_path)
     return html_path

@@ -1,0 +1,8 @@
+#+TITLE: Python
+
+Python is a popular high-level programming language.
+
+It supports multiple programming paradigms, including [[object_oriented_programming]].
+It has automatic [[garbage_collection]].
+
+See also: [[programming_languages]]

@@ -3,16 +3,22 @@ import sys
 import json
 import re
 
-def create_graph_from_path(notes_path):
+def create_graph_from_path(notes_path, ignore_patterns=None):
     """Scans a directory for .md and .org files, extracts nodes and simple edges."""
+    if ignore_patterns is None:
+        ignore_patterns = []
+    
     nodes = []
     edges = []
     file_paths = {}
 
     # First pass: Collect all valid note files and create nodes
-    for root, _, files in os.walk(notes_path):
+    for root, dirs, files in os.walk(notes_path):
+        # Exclude directories based on ignore patterns
+        dirs[:] = [d for d in dirs if d not in ignore_patterns]
+        
         for file in files:
-            if file.endswith(('.md', '.org')):
+            if file.endswith(('.md', '.org')) and file not in ignore_patterns:
                 full_path = os.path.join(root, file)
                 node_id = os.path.basename(full_path) # Use filename as ID for simplicity
                 node_label = os.path.splitext(node_id)[0]
@@ -53,18 +59,21 @@ def create_graph_from_path(notes_path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print(f"Usage: {sys.argv[0]} <notes_path> <cache_file>")
+        print(f"Usage: {sys.argv[0]} <notes_path> <cache_file> [ignore_patterns...]")
         sys.exit(1)
 
     notes_path = sys.argv[1]
     cache_file = sys.argv[2]
+    ignore_patterns = sys.argv[3:] if len(sys.argv) > 3 else []
 
     if not os.path.isdir(notes_path):
         print(f"Notes directory {notes_path} not found. Creating it.")
         os.makedirs(notes_path)
 
     print(f"Scanning for notes in: {notes_path}")
-    graph_data = create_graph_from_path(notes_path)
+    if ignore_patterns:
+        print(f"Ignoring: {ignore_patterns}")
+    graph_data = create_graph_from_path(notes_path, ignore_patterns)
 
     try:
         with open(cache_file, 'w') as f:

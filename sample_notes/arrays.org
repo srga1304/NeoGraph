@@ -1,0 +1,5 @@
+#+TITLE: Arrays
+
+An array is a data structure consisting of a collection of elements.
+
+Related to: [[data_structures]]

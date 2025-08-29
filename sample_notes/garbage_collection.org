@@ -1,0 +1,7 @@
+#+TITLE: Garbage Collection
+
+Garbage collection is a form of automatic memory management.
+
+It is used in many modern languages like [[python]], [[javascript]], and [[lua]].
+
+Related to: [[concepts]]

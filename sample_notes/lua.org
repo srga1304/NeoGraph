@@ -1,0 +1,7 @@
+#+TITLE: Lua
+
+Lua is a lightweight, high-level, multi-paradigm programming language.
+
+It is known for its speed and embeddability. It uses [[garbage_collection]].
+
+See also: [[programming_languages]]

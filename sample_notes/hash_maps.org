@@ -1,0 +1,5 @@
+#+TITLE: Hash Maps
+
+Hash maps (or dictionaries in [[python]]) are a fundamental data structure.
+
+Related to: [[data_structures]]

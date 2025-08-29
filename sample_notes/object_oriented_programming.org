@@ -1,0 +1,7 @@
+#+TITLE: Object-Oriented Programming
+
+Object-Oriented Programming (OOP) is a programming paradigm based on the concept of "objects".
+
+[[python]] is a language that heavily utilizes OOP principles.
+
+Related to: [[concepts]]
