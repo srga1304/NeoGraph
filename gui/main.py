@@ -4,7 +4,7 @@ import os
 from pyvis.network import Network
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
-from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QUrl, Qt
 
 def load_graph_data(cache_file):
     """Loads graph data from the JSON cache file."""
@@ -139,14 +139,47 @@ class GraphWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle('NeoGraphNotes')
         self.setGeometry(100, 100, 1024, 768)
-
+        
+        # Убираем рамку окна
+        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
+        
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)
+        
+        # Убираем отступы и рамки у всех элементов
+        self.setContentsMargins(0, 0, 0, 0)
+        self.browser.setContentsMargins(0, 0, 0, 0)
+        
+        # Полное убирание всех рамок и отступов
+        self.setStyleSheet("""
+            QMainWindow {
+                border: none;
+                margin: 0px;
+                padding: 0px;
+                background-color: #222222;
+            }
+            QWebEngineView {
+                border: none;
+                margin: 0px;
+                padding: 0px;
+                background-color: #222222;
+            }
+        """)
+        
+        # Убираем статусную строку и меню если есть
+        self.statusBar().setVisible(False)
+        if self.menuBar():
+            self.menuBar().setVisible(False)
 
         self.browser.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
 
         if html_content:
-            self.browser.setHtml(html_content, base_url)
+            # Модифицируем HTML чтобы убрать отступы body
+            modified_html = html_content.replace(
+                '<body>', 
+                '<body style="margin:0; padding:0; overflow:hidden;">'
+            )
+            self.browser.setHtml(modified_html, base_url)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
