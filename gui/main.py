@@ -76,18 +76,25 @@ def create_interactive_graph_html(graph_data, cache_file):
     "physics": {
         "enabled": true,
         "barnesHut": {
-            "gravitationalConstant": -5000,
+            "gravitationalConstant": -900,
             "centralGravity": 0.05,
-            "springLength": 300,
-            "springConstant": 0.02,
-            "damping": 0.05,
-            "avoidOverlap": 0.5
+            "springLength": 150,
+            "springConstant": 0.05,
+            "damping": 0.4,
+            "avoidOverlap": 0.3
         },
         "maxVelocity": 30,
-        "minVelocity": 0.1,
+        "minVelocity": 0.02,
         "solver": "barnesHut",
-        "timestep": 0.35,
-        "adaptiveTimestep": true
+        "timestep": 0.6,
+        "adaptiveTimestep": true,
+        "stabilization": {
+            "enabled": true,
+            "iterations": 150,
+            "updateInterval": 25,
+            "onlyDynamicEdges": false,
+            "fit": true
+        }
     },
     "interaction": {
         "hover": true,
